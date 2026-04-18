@@ -1,0 +1,947 @@
+@use "sass:color";
+
+// --- Palette: warm confetti night ---
+$ink: #120c12;
+$wine: #2a1628;
+$plum: #3d2244;
+$rose: #ff7b9c;
+$apricot: #ffb86c;
+$gold: #ffe29a;
+$lilac: #c9b6ff;
+$mint: #8be3c3;
+$sky: #7ec8e3;
+$cream: #fff7f2;
+$muted: #c4b8cc;
+
+// Paper (printed card)
+$paper: #fff9f4;
+$paper-shade: #f3e8dc;
+$paper-ink: #3d2f33;
+$paper-accent: #c45c6a;
+
+$font-display: "Fraunces", "Georgia", serif;
+$font-body: "Outfit", system-ui, sans-serif;
+
+$radius-lg: 22px;
+$radius-md: 12px;
+$shadow-soft: 0 24px 60px rgba(8, 4, 12, 0.55);
+$shadow-glow: 0 0 80px rgba(255, 123, 156, 0.12);
+$shadow-card: 0 18px 40px rgba(20, 10, 18, 0.35), 0 2px 0 rgba(255, 255, 255, 0.35) inset;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: $font-body;
+  color: $cream;
+  line-height: 1.55;
+  background: $ink;
+  background-image:
+    radial-gradient(ellipse 100% 70% at 50% -25%, rgba($rose, 0.35), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 100% 15%, rgba($lilac, 0.2), transparent),
+    radial-gradient(ellipse 50% 40% at 0% 80%, rgba($apricot, 0.12), transparent),
+    linear-gradient(165deg, $ink 0%, $wine 45%, color.adjust($plum, $lightness: -6%) 100%);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.app__glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+
+  &--1 {
+    width: 340px;
+    height: 340px;
+    top: -120px;
+    right: -80px;
+    background: rgba($rose, 0.45);
+  }
+
+  &--2 {
+    width: 280px;
+    height: 280px;
+    bottom: 10%;
+    left: -100px;
+    background: rgba($lilac, 0.35);
+  }
+
+  &--3 {
+    width: 200px;
+    height: 200px;
+    top: 40%;
+    right: 15%;
+    background: rgba($apricot, 0.2);
+  }
+}
+
+.app__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 1.35rem 3.5rem;
+}
+
+// --- Fun page title ---
+.page-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.page-title__sparkle {
+  margin: 0 0 0.65rem;
+  font-size: 1.15rem;
+  letter-spacing: 0.35em;
+  opacity: 0.92;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.25));
+}
+
+.page-title__main {
+  margin: 0;
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: clamp(1.85rem, 4.5vw, 2.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  background: linear-gradient(
+    115deg,
+    $gold 0%,
+    color.adjust($rose, $lightness: 6%) 35%,
+    $lilac 72%,
+    $sky 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: $shadow-glow;
+}
+
+.page-title__tagline {
+  margin: 0.85rem auto 0;
+  max-width: 36rem;
+  font-size: 1.08rem;
+  font-weight: 500;
+  color: rgba($muted, 0.98);
+}
+
+// --- Two-column workspace ---
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: 2rem;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.workspace__left {
+  position: relative;
+}
+
+.workspace__right {
+  position: relative;
+
+  @media (min-width: 901px) {
+    position: sticky;
+    top: 1.25rem;
+  }
+}
+
+// --- Form panel ---
+.panel {
+  position: relative;
+  padding: 1.85rem 1.65rem 1.75rem;
+  border-radius: $radius-lg;
+  background: linear-gradient(
+    155deg,
+    rgba($plum, 0.92) 0%,
+    rgba(color.adjust($wine, $lightness: -4%), 0.88) 100%
+  );
+  border: 1px solid rgba($cream, 0.1);
+  box-shadow: $shadow-soft, inset 0 1px 0 rgba($cream, 0.06);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba($gold, 0.35),
+      transparent 40%,
+      rgba($rose, 0.2)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+.panel__lede {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 1.1rem;
+  font-size: 0.98rem;
+  color: rgba($cream, 0.82);
+  line-height: 1.5;
+}
+
+.panel__alert {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 1rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: $radius-md;
+  font-size: 0.92rem;
+  color: rgba($cream, 0.95);
+  background: rgba($rose, 0.2);
+  border: 1px solid rgba($rose, 0.35);
+}
+
+.form {
+  position: relative;
+  z-index: 1;
+}
+
+.field {
+  margin-bottom: 1.2rem;
+
+  &:last-of-type {
+    margin-bottom: 1.45rem;
+  }
+
+  label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba($lilac, 0.95);
+    margin-bottom: 0.4rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.82rem 1.05rem;
+    border-radius: $radius-md;
+    border: 1px solid rgba($cream, 0.12);
+    background: rgba($ink, 0.45);
+    color: $cream;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+
+    &::placeholder {
+      color: rgba($muted, 0.55);
+    }
+
+    &:hover {
+      border-color: rgba($cream, 0.2);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: rgba($rose, 0.65);
+      box-shadow: 0 0 0 3px rgba($rose, 0.22);
+      background: rgba($ink, 0.65);
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  font-family: inherit;
+  font-size: 0.98rem;
+  font-weight: 600;
+  padding: 0.85rem 1.4rem;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: transform 0.12s ease, filter 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &--primary {
+    flex: 1;
+    min-width: 150px;
+    border: none;
+    color: $ink;
+    background: linear-gradient(125deg, color.adjust($rose, $lightness: 4%), $lilac 55%, $apricot);
+    box-shadow: 0 10px 32px rgba($rose, 0.28);
+
+    &:hover {
+      filter: brightness(1.06) saturate(1.05);
+    }
+  }
+
+  &--ghost {
+    border: 1px solid rgba($cream, 0.22);
+    background: rgba($ink, 0.25);
+    color: rgba($cream, 0.75);
+
+    &:hover {
+      color: $cream;
+      border-color: rgba($cream, 0.38);
+      background: rgba($ink, 0.4);
+    }
+  }
+}
+
+// --- Cards column ---
+.cards-rail__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.cards-rail__title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: $gold;
+  letter-spacing: -0.01em;
+}
+
+.cards-rail__badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  color: rgba($mint, 0.95);
+  background: rgba($mint, 0.12);
+  border: 1px solid rgba($mint, 0.28);
+}
+
+.card-stack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.card-stack__item {
+  position: relative;
+  list-style: none;
+
+  &:not(:first-child) .birthday-card__book {
+    transform: rotate(-0.35deg);
+  }
+
+  &:nth-child(even) .birthday-card__book {
+    transform: rotate(0.45deg);
+  }
+
+  &:first-child .birthday-card__book {
+    transform: rotate(0deg);
+  }
+}
+
+// --- Physical birthday card (open bifold) ---
+.birthday-card {
+  perspective: 1200px;
+}
+
+.birthday-card__book {
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+  border: 1px solid rgba(80, 50, 55, 0.12);
+  transition: transform 0.2s ease;
+}
+
+.birthday-card__cover {
+  height: 14px;
+  background: linear-gradient(90deg, color.adjust($paper-accent, $lightness: -8%), $paper-accent);
+  position: relative;
+}
+
+.birthday-card__cover-ribbon {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 22px;
+  background: linear-gradient(180deg, $gold, color.adjust($gold, $lightness: -12%));
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.birthday-card__spread {
+  position: relative;
+  display: flex;
+  min-height: 260px;
+  background: $paper;
+}
+
+.birthday-card__page {
+  position: relative;
+  padding: 1.35rem 1.25rem;
+
+  &--left {
+    width: 38%;
+    flex-shrink: 0;
+    background: linear-gradient(90deg, $paper-shade 0%, $paper 88%);
+    border-right: 1px solid rgba(60, 40, 45, 0.08);
+    box-shadow: inset -6px 0 12px rgba(0, 0, 0, 0.04);
+  }
+
+  &--right {
+    flex: 1;
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.65), rgba(255, 249, 244, 0.98));
+    border-left: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: inset 8px 0 18px rgba(0, 0, 0, 0.03);
+  }
+}
+
+.birthday-card__watermark {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%) rotate(-12deg);
+  font-family: $font-display;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: rgba($paper-accent, 0.12);
+  letter-spacing: 0.02em;
+  user-select: none;
+}
+
+.birthday-card__script {
+  margin: 0 0 0.85rem;
+  font-family: $font-display;
+  font-size: 1.45rem;
+  font-style: italic;
+  font-weight: 600;
+  color: $paper-accent;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.birthday-card__body {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.02rem;
+  font-weight: 500;
+  line-height: 1.55;
+  color: $paper-ink;
+  white-space: pre-wrap;
+}
+
+.birthday-card__signoff {
+  margin: 1.15rem 0 0;
+  font-family: $font-display;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: rgba($paper-ink, 0.55);
+  text-align: right;
+}
+
+.birthday-card__placeholder {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.55;
+  color: rgba($paper-ink, 0.45);
+  text-align: center;
+  padding: 2rem 0.5rem;
+}
+
+.birthday-card--empty .birthday-card__spread {
+  min-height: 220px;
+}
+
+// --- Confetti ---
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.confetti__bit {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  top: -12px;
+  border-radius: 2px;
+  opacity: 0.9;
+  animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+  to {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0.35;
+  }
+}
+
+// --- Card enter (respects reduced motion via .app--reduce-motion) ---
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.birthday-card--enter .birthday-card__book {
+  animation: card-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.app--reduce-motion .birthday-card--enter .birthday-card__book {
+  animation: none;
+}
+
+// --- Form extras ---
+.field--row {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.field--grow {
+  flex: 1;
+  min-width: 140px;
+}
+
+select {
+  width: 100%;
+  padding: 0.82rem 1.05rem;
+  border-radius: $radius-md;
+  border: 1px solid rgba($cream, 0.12);
+  background: rgba($ink, 0.45);
+  color: $cream;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: rgba($rose, 0.65);
+    box-shadow: 0 0 0 3px rgba($rose, 0.22);
+  }
+}
+
+.fieldset {
+  margin: 0 0 1.2rem;
+  padding: 1rem 1rem 0.85rem;
+  border: 1px dashed rgba($cream, 0.2);
+  border-radius: $radius-md;
+}
+
+.fieldset__legend {
+  padding: 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba($lilac, 0.95);
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0.5rem 0 0;
+  font-size: 0.92rem;
+  color: rgba($cream, 0.85);
+  cursor: pointer;
+
+  input {
+    width: auto;
+    accent-color: $rose;
+  }
+
+  &--disabled {
+    opacity: 0.85;
+    cursor: default;
+  }
+}
+
+.check__hint {
+  font-weight: 400;
+  color: rgba($muted, 0.95);
+}
+
+.panel__toast {
+  margin: 0 0 1rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: $radius-md;
+  font-size: 0.9rem;
+  color: rgba($cream, 0.95);
+  background: rgba($mint, 0.15);
+  border: 1px solid rgba($mint, 0.35);
+}
+
+// --- Toolbar & buttons ---
+.cards-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.btn--small {
+  padding: 0.55rem 0.85rem;
+  font-size: 0.85rem;
+}
+
+.btn--tiny {
+  padding: 0.35rem 0.55rem;
+  font-size: 0.78rem;
+  border-radius: 8px;
+}
+
+.card-chrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.card-chrome__hint {
+  font-size: 0.72rem;
+  color: rgba($muted, 0.85);
+}
+
+.card-chrome__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.card-drag-handle {
+  cursor: grab;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0.25rem 0.45rem;
+  border-radius: 6px;
+  color: rgba($cream, 0.65);
+  border: 1px solid rgba($cream, 0.15);
+  user-select: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.card-stack__item--drag {
+  opacity: 0.88;
+}
+
+// --- Export / envelope wrapper ---
+.card-export-root {
+  position: relative;
+  border-radius: 16px;
+}
+
+.card-export-root--envelope {
+  padding: 1.35rem 1.1rem 1.1rem;
+  background: linear-gradient(165deg, #d8cfc4 0%, #c9bfb2 100%);
+  border: 1px solid rgba(60, 50, 45, 0.2);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+}
+
+.birthday-card__envelope {
+  position: absolute;
+  inset: 0.5rem 0.5rem auto 0.5rem;
+  height: 38%;
+  border-radius: 10px 10px 4px 4px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent);
+  border: 1px solid rgba(80, 60, 50, 0.12);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.card-export-root--envelope .birthday-card__book {
+  position: relative;
+  z-index: 1;
+}
+
+.birthday-card__stamp {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.85rem;
+  z-index: 2;
+  width: 52px;
+  height: 62px;
+  border: 2px dashed rgba(80, 50, 50, 0.35);
+  border-radius: 4px;
+  background: rgba(255, 250, 245, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: rgba($paper-accent, 0.85);
+  transform: rotate(-8deg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+
+// --- Corner stickers ---
+.birthday-card__spread--stickers::before,
+.birthday-card__spread--stickers::after {
+  position: absolute;
+  font-size: 1.1rem;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.birthday-card__spread--stickers::before {
+  content: "\2728";
+  top: 0.5rem;
+  right: 0.65rem;
+}
+
+.birthday-card__spread--stickers::after {
+  content: "\2605";
+  bottom: 0.45rem;
+  left: 0.55rem;
+  font-size: 1rem;
+}
+
+// --- Card font packs ---
+.birthday-card--font-hand {
+  .birthday-card__script,
+  .birthday-card__body,
+  .birthday-card__signoff,
+  .birthday-card__placeholder,
+  .birthday-card__watermark {
+    font-family: "Caveat", "Segoe Script", cursive;
+  }
+
+  .birthday-card__body {
+    font-size: 1.18rem;
+    font-weight: 600;
+  }
+
+  .birthday-card__script {
+    font-size: 1.65rem;
+  }
+}
+
+.birthday-card--font-modern {
+  .birthday-card__script,
+  .birthday-card__body,
+  .birthday-card__signoff,
+  .birthday-card__placeholder {
+    font-family: "DM Sans", system-ui, sans-serif;
+  }
+
+  .birthday-card__script {
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .birthday-card__body {
+    font-weight: 500;
+  }
+}
+
+// --- Minimalist theme (body class toggled in React) ---
+body.theme-minimalist {
+  background: #ecebe8 !important;
+  background-image: none !important;
+  color: #1e1e1e;
+
+  #root {
+    color: inherit;
+  }
+
+  .page-title__tagline {
+    color: #5c5c5c;
+  }
+
+  .page-title__main {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    color: #111;
+    text-shadow: none;
+  }
+
+  .page-title__sparkle {
+    filter: none;
+    opacity: 0.85;
+  }
+
+  .panel {
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+    color: #222;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .panel__lede {
+    color: #444;
+  }
+
+  .field label,
+  .fieldset__legend {
+    color: #555;
+  }
+
+  .check {
+    color: #333;
+  }
+
+  select,
+  .field input {
+    background: #f7f7f6;
+    color: #111;
+    border-color: #ccc;
+  }
+
+  .btn--ghost {
+    background: #f0f0ef;
+    color: #333;
+    border-color: #ccc;
+  }
+
+  .btn--primary {
+    background: #111;
+    color: #fff;
+    box-shadow: none;
+  }
+
+  .cards-rail__title {
+    color: #111;
+  }
+
+  .cards-rail__badge {
+    background: #e8e8e6;
+    color: #333;
+    border-color: #ccc;
+  }
+
+  .card-drag-handle {
+    color: #555;
+    border-color: #ccc;
+  }
+
+  .card-chrome__hint {
+    color: #666;
+  }
+
+  .panel__toast {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-color: #a5d6a7;
+  }
+
+  .panel__alert {
+    background: #ffebee;
+    border-color: #ef9a9a;
+    color: #b71c1c;
+  }
+}
+
+// --- Print: cards only, clean page ---
+@media print {
+  @page {
+    margin: 0.6in;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  body.theme-minimalist {
+    background: #fff !important;
+  }
+
+  .app__inner {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  .workspace,
+  .workspace__right {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .cards-rail {
+    margin: 0;
+  }
+
+  .card-stack {
+    gap: 1.25rem;
+  }
+
+  .birthday-card__book {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    break-inside: avoid;
+  }
+
+  .card-export-root--envelope {
+    background: #f5f5f5 !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+}
