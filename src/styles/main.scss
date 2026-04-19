@@ -895,6 +895,107 @@ body.theme-minimalist {
   }
 }
 
+// --- Relationship themes (glows + title tint; minimalist keeps calm neutrals) ---
+body:not(.theme-minimalist) {
+  .app--rel-friend {
+    .app__glow--1 { background: rgba(126, 200, 227, 0.5) !important; }
+    .app__glow--2 { background: rgba(201, 182, 255, 0.42) !important; }
+    .app__glow--3 { background: rgba(255, 184, 108, 0.28) !important; }
+
+    .page-title__main {
+      background: linear-gradient(115deg, #9dd5ea 0%, #c9b6ff 45%, #ffb86c 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .cards-rail__title { color: #9dd5ea; }
+  }
+
+  .app--rel-partner {
+    .app__glow--1 { background: rgba(255, 123, 156, 0.55) !important; }
+    .app__glow--2 { background: rgba(255, 208, 216, 0.35) !important; }
+    .app__glow--3 { background: rgba(201, 182, 255, 0.28) !important; }
+
+    .page-title__main {
+      background: linear-gradient(115deg, #ffd0d8 0%, #ff7b9c 50%, #ffe29a 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .cards-rail__title { color: #ffb6c9; }
+  }
+
+  .app--rel-coworker {
+    .app__glow--1 { background: rgba(125, 206, 160, 0.45) !important; }
+    .app__glow--2 { background: rgba(126, 200, 227, 0.38) !important; }
+    .app__glow--3 { background: rgba(184, 197, 255, 0.25) !important; }
+
+    .page-title__main {
+      background: linear-gradient(115deg, #7dcea0 0%, #7ec8e3 50%, #b8c5ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .cards-rail__title { color: #8ed9b0; }
+  }
+
+  .app--rel-kid {
+    .app__glow--1 { background: rgba(255, 184, 108, 0.52) !important; }
+    .app__glow--2 { background: rgba(255, 240, 166, 0.4) !important; }
+    .app__glow--3 { background: rgba(139, 227, 195, 0.3) !important; }
+
+    .page-title__main {
+      background: linear-gradient(115deg, #fff0a6 0%, #ffb86c 40%, #81d4fa 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .cards-rail__title { color: #ffd48a; }
+  }
+
+  .app--rel-parent {
+    .app__glow--1 { background: rgba(201, 162, 39, 0.38) !important; }
+    .app__glow--2 { background: rgba(196, 167, 255, 0.35) !important; }
+    .app__glow--3 { background: rgba(139, 227, 195, 0.22) !important; }
+
+    .page-title__main {
+      background: linear-gradient(115deg, #ffe29a 0%, #c9a227 45%, #b39ddb 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .cards-rail__title { color: #e8d089; }
+  }
+
+  .app--rel-pet {
+    .app__glow--1 { background: rgba(152, 216, 170, 0.48) !important; }
+    .app__glow--2 { background: rgba(200, 245, 232, 0.38) !important; }
+    .app__glow--3 { background: rgba(255, 204, 128, 0.28) !important; }
+
+    .page-title__main {
+      background: linear-gradient(115deg, #98d8aa 0%, #c8f5e8 40%, #ffcc80 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .cards-rail__title { color: #a8e6cf; }
+  }
+}
+
+.birthday-card__signblock {
+  margin-top: 0.25rem;
+}
+
+.birthday-card__signer {
+  margin: 0.35rem 0 0;
+  font-family: $font-display;
+  font-size: 1rem;
+  font-weight: 600;
+  font-style: italic;
+  color: rgba($paper-ink, 0.72);
+  text-align: right;
+}
+
 // --- Print: cards only, clean page ---
 @media print {
   @page {

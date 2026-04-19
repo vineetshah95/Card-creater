@@ -9,6 +9,6 @@ export type GenerateOptions = {
   relationship: Relationship;
   tone: Tone;
   length: Length;
-  /** Softer humor, no roast, warmer pet language — great when pets are part of the joke or the guest list. */
+  /** Softer humor, no roast, warmer pet language when pets are part of the joke or the guest list. */
   petFriendly?: boolean;
 };

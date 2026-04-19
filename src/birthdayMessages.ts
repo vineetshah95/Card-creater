@@ -41,11 +41,11 @@ function hobbyBlurb(hobby: string, petFriendly: boolean, isPetStar: boolean): st
     const petLike: Array<{ test: (s: string) => boolean; blurb: (display: string) => string }> = [
       { test: (s) => /treat|snack|cheese|peanut|cookie|bone/i.test(s), blurb: (d) => `${d} tastings (five-star reviews only)` },
       { test: (s) => /walk|hike|yard|park/i.test(s), blurb: (d) => `${d} patrols with maximum tail velocity` },
-      { test: (s) => /fetch|ball|toy|squeak|frisbee/i.test(s), blurb: (d) => `${d} athletics—rookie humans need not apply` },
+      { test: (s) => /fetch|ball|toy|squeak|frisbee/i.test(s), blurb: (d) => `${d} athletics, rookie humans need not apply` },
       { test: (s) => /nap|sleep|sunbeam|couch|bed|blanket/i.test(s), blurb: (d) => `${d} championship napping` },
       { test: (s) => /squirrel|mail|delivery|window/i.test(s), blurb: (d) => `${d} surveillance detail (unpaid but passionate)` },
       { test: (s) => /swim|water|splash/i.test(s), blurb: (d) => `${d} splash zone expertise` },
-      { test: (s) => /catnip|laser|red\s*dot/i.test(s), blurb: (d) => `${d}—high art, zero regrets` },
+      { test: (s) => /catnip|laser|red\s*dot/i.test(s), blurb: (d) => `${d}, high art, zero regrets` },
     ];
     for (const { test, blurb } of petLike) {
       if (test(lower)) return blurb(h);
@@ -71,7 +71,7 @@ function hobbyBlurb(hobby: string, petFriendly: boolean, isPetStar: boolean): st
       test: (s) => /cat|kitten|feline/i.test(s),
       blurb: (d) =>
         petFriendly
-          ? `${d} companions who clearly run the house—and you’re honored to serve`
+          ? `${d} companions who clearly run the house, and you’re honored to serve`
           : `${d} supervision of all human activities`,
     },
     {
@@ -81,7 +81,7 @@ function hobbyBlurb(hobby: string, petFriendly: boolean, isPetStar: boolean): st
         ) || /\bguinea\s*pigs?\b/i.test(s),
       blurb: (d) =>
         petFriendly
-          ? `${d}—small (or scaly) roommates, enormous heart quota`
+          ? `${d}, small (or scaly) roommates, enormous heart quota`
           : `${d} roommates who never pay rent but get away with it`,
     },
     { test: (s) => /photo|camera|lens/i.test(s), blurb: (d) => `${d} shots worth framing next to the cake` },
@@ -144,11 +144,11 @@ function relationshipHooks(ctx: Ctx, rel: Relationship): string[] {
     case "friend":
       return [
         `To my favorite chaos colleague, ${name}: happy ${o}!`,
-        `Friend-tier news: ${name} unlocks ${o} today—${H} included.`,
+        `Friend-tier news: ${name} unlocks ${o} today, ${H} included.`,
       ];
     case "partner":
       return [
-        `To my favorite human—happy ${o}, ${name}.`,
+        `To my favorite human. Happy ${o}, ${name}.`,
         `Partner protocol: celebrate ${name} turning ${o} with maximum ${H}.`,
       ];
     case "coworker":
@@ -163,12 +163,12 @@ function relationshipHooks(ctx: Ctx, rel: Relationship): string[] {
       ];
     case "parent":
       return [
-        `Parent-mode legend ${name}—happy ${o}!`,
+        `Parent-mode legend ${name}, happy ${o}!`,
         `Family announcement: ${name} makes ${o} look effortless.`,
       ];
     case "pet":
       return [
-        `Birthday boops to ${name}—${o} looks adorable on you.`,
+        `Birthday boops to ${name} on your ${o}! Still ridiculously adorable.`,
         `Treat report: ${name} turns ${o}; ${H} supplies must be fully stocked.`,
       ];
   }
@@ -184,7 +184,7 @@ function milestoneExtras(ctx: Ctx): string[] {
     const pm: Partial<Record<number, string[]>> = {
       16: [`${name}, ${o}! More ${H}, more zoomies, more mail to side-eye.`],
       18: [`${name} hits ${o}! ${H} passion still set to “maximum loyal.”`],
-      21: [`Legal drinking age is irrelevant—${name} is ${o} and ${H} is the real celebration.`],
+      21: [`Legal drinking age is irrelevant, ${name} is ${o} and ${H} is the real celebration.`],
       25: [`Quarter-century ${name}! ${H} stamina: undefeated.`],
       30: [`Flirty ${o} energy, ${name}? Only if it involves ${H} and chin scratches.`],
       40: [`Fabulous ${o}, ${name}! ${H} only gets more iconic.`],
@@ -197,28 +197,28 @@ function milestoneExtras(ctx: Ctx): string[] {
   const m: Partial<Record<number, string[]>> = {
     16: [
       `${name}, sweet ${o}! Bigger adventures, same excellent taste in ${H}.`,
-      `License to drive + ${o} candles—${name}, the world isn’t ready (in a good way).`,
+      `License to drive + ${o} candles, ${name}, the world isn’t ready (in a good way).`,
     ],
     18: [
       `${name}, welcome to ${o}: adult menus, bigger dreams, same obsession with ${H}.`,
-      `Eighteen looks good on you, ${name}—may ${N} stay wildly fun.`,
+      `Eighteen looks good on you, ${name}. May ${N} stay wildly fun.`,
     ],
     21: [
-      `${name}, ${o}! Celebrate loudly—${H} stories optional but encouraged.`,
+      `${name}, ${o}! Celebrate loudly, ${H} stories optional but encouraged.`,
       `Twenty-one salute to ${name}: may your ${H} hobby receipts stay legendary.`,
     ],
     25: [
       `Quarter-century mode: ${name} hits ${o} with ${H} on full display.`,
     ],
     30: [
-      `${name}, ${o} and thriving—${H} is Exhibit A of excellent priorities.`,
+      `${name}, ${o} and thriving, ${H} is Exhibit A of excellent priorities.`,
       `Flirty ${o} energy unlocked, ${name}. ${N} may now be used as bragging rights.`,
     ],
     40: [
       `${name}, fabulous ${o}! ${H} proves fun doesn’t expire.`,
     ],
     50: [
-      `Half a hundred, ${name}! ${H} hobbies, full happiness—happy ${o}.`,
+      `Half a hundred, ${name}! ${H} hobbies, full happiness, happy ${o}.`,
     ],
     60: [
       `${name}, sensational ${o}! ${H} and joy both aging beautifully.`,
@@ -233,14 +233,14 @@ function petFriendlyLines(ctx: Ctx): string[] {
     return [
       `Happy ${o}, ${name}! May ${H} multiply, naps lengthen, and suspicious noises outside get the attention they deserve.`,
       `Wishing ${name} a ${o} stacked with snacks, soft spots in the sun, and humans who understand the assignment.`,
-      `${name}: official ${o} status unlocked—${H} enthusiasm remains the household gold standard.`,
+      `${name}: official ${o} status unlocked, ${H} enthusiasm remains the household gold standard.`,
       `Birthday memo for humans: more ${H}, fewer spreadsheets, maximum ear scratches for ${name}.`,
     ];
   }
   return [
     `Happy ${o}, ${name}! The pets in your orbit cast a unanimous “yes” vote for more cake, more cuddles, and more ${H}.`,
     `Wishing ${name} a ${o} where every wag, purr, and happy chirp celebrates you right back.`,
-    `${name}: ${o} years of being the human your animals clearly chose in the draft—well played.`,
+    `${name}: ${o} years of being the human your animals clearly chose in the draft, well played.`,
     `Pet-safe birthday memo: joy for you, extra scritches for them, zero side-eye from the cat.`,
   ];
 }
@@ -248,14 +248,14 @@ function petFriendlyLines(ctx: Ctx): string[] {
 function pickSecondPetStar(tone: Tone, ctx: Ctx): string {
   const { name, o, H, N } = ctx;
   const wholesome = [
-    `Your people are lucky to be on ${name}’s staff—extra ${H} rations are approved.`,
+    `Your people are lucky to be on ${name}’s staff, extra ${H} rations are approved.`,
     `Hope ${o} brings you soft beds, good smells, and humans who read your mind, ${name}.`,
-    `The world is better with your ${H} energy in it, ${name}—happy ${o}.`,
+    `The world is better with your ${H} energy, ${name}. Happy ${o}.`,
     `Thank you for being the kind of ${ctx.relWord} who makes every day sillier and warmer, ${name}.`,
   ];
   const cheeky = [
     `May your ${H} hits today crash the cuteness server, ${name}.`,
-    `${N} is a lot of excellence for one birthday, ${name}—pace yourself between naps.`,
+    `${N} is a lot of excellence for one birthday, ${name}, pace yourself between naps.`,
     `At ${o}, you’ve earned diplomatic immunity from baths… briefly, ${name}.`,
     `Another lap around the sun and you’re still the CEO of ${H}, ${name}.`,
   ];
@@ -270,7 +270,7 @@ function pickSecond(tone: Tone, ctx: Ctx): string {
   }
   const wholesome = [
     `So glad your people get another year of you, ${name}.`,
-    `You make good days better—especially when ${H} is involved.`,
+    `You make good days better, especially when ${H} is involved.`,
     `Wishing you gentle wins, loud laughter, and ${N} on repeat.`,
     `Thank you for being the kind of ${ctx.relWord} who makes life warmer.`,
   ];
@@ -278,19 +278,19 @@ function pickSecond(tone: Tone, ctx: Ctx): string {
     `If ${H} were an Olympic sport, you’d be on the podium, ${name}.`,
     `Cake calories don’t count when ${N} is this iconic.`,
     `We’re all just living in the universe ${name} decorates with ${H}.`,
-    `Another year of you being suspiciously good at ${H}—keep it up.`,
+    `Another year of you being suspiciously good at ${H}, keep it up.`,
   ];
   const roast = [
     `Another lap around the sun and you’re still pretending ${H} is “just a hobby,” ${name}.`,
-    `Science can’t explain how ${N} and birthday cake coexist—yet here you are.`,
+    `Science can’t explain how ${N} and birthday cake coexist, yet here you are.`,
     `At this point ${H} is basically your brand, ${name}. Trademark pending.`,
     `Age is just a number; ${H} is the real spreadsheet, ${name}.`,
   ];
   const petWing = [
     `Official paw-print approval: ${name}’s ${o} celebration is hereby rated five stars by the household animals.`,
-    `Treats for the pets, cake for you—${name}, that’s the birthday treaty we all support.`,
+    `Treats for the pets, cake for you, ${name}, that’s the birthday treaty we all support.`,
     `Your pets would like it noted that ${H} time still includes them, obviously.`,
-    `Warm fuzzies all around—two-legged and four-legged fans included, ${name}.`,
+    `Warm fuzzies all around, two-legged and four-legged fans included, ${name}.`,
   ];
   let pool = tone === "wholesome" ? wholesome : tone === "roast" ? roast : cheeky;
   if (petFriendly && Math.random() < 0.5) {
@@ -303,12 +303,12 @@ function oneLinersWholesome(ctx: Ctx): string[] {
   const { name, o, H, N, nAre, younger, relWord } = ctx;
   return [
     `Happy ${o}, ${name}! May ${N} bring you steady joy and the sweetest ordinary days.`,
-    `${name}, you’re ${o} and such a gift as a ${relWord}—cheers to ${H} and good company.`,
+    `${name}, you’re ${o} and such a gift as a ${relWord}, cheers to ${H} and good company.`,
     `Celebrating ${name} at ${o}: may kindness find you as often as ${H} does.`,
-    `Happy birthday, ${name}! ${H} suits you—${N} ${nAre} proof you’re doing life right.`,
+    `Happy birthday, ${name}! ${H} suits you, and ${N} ${nAre} proof you’re doing life right.`,
     `Here’s to ${o}, ${name}! May ${N} feel like a warm light on a cozy night.`,
     `They say ${o} is the new ${younger}. Either way, ${name}, you make it look kind.`,
-    `${name}: ${o} candles, infinite reasons we’re lucky you exist—${H} included.`,
+    `${name}: ${o} candles, infinite reasons we’re lucky you exist, ${H} included.`,
     `Wishing ${name} a ${o} birthday wrapped in laughter, cake, and ${N}.`,
   ];
 }
@@ -317,26 +317,26 @@ function oneLinersCheeky(ctx: Ctx): string[] {
   const { name, o, H, N, nAre, younger } = ctx;
   return [
     `Happy ${o}, ${name}! May ${N} level up faster than your cake disappears.`,
-    `${name}, you’re ${o} and still choosing ${H} over “sensible hobbies”—${N} and all. Respect.`,
+    `${name}, you’re ${o} and still choosing ${H} over “sensible hobbies.” ${N} and all. Respect.`,
     `Official decree: ${name} is ${o} today. Celebratory mandate: honor ${N} for at least one glorious hour.`,
-    `${o} looks good on you, ${name}—especially when you’re deep in ${H} and living ${N}.`,
+    `${o} looks good on you, ${name}, especially when you’re deep in ${H} and living ${N}.`,
     `Happy birthday, ${name}! At ${o}, you’ve earned the right to be gloriously weird about ${H} in public (${N}).`,
-    `They say ${o} is the new ${younger}. They’re wrong—but ${N} ${nAre} forever, ${name}.`,
-    `${name}: ${o} candles, zero excuses not to dive into ${H}—and flex ${N} while you’re at it.`,
-    `Happy ${o}, ${name}! You’re not “getting old”—you’re unlocking premium ${H} content: ${N}.`,
+    `They say ${o} is the new ${younger}. They’re wrong, but ${N} ${nAre} forever, ${name}.`,
+    `${name}: ${o} candles, zero excuses not to dive into ${H}, and flex ${N} while you’re at it.`,
+    `Happy ${o}, ${name}! You’re not “getting old,” you’re unlocking premium ${H} content: ${N}.`,
   ];
 }
 
 function oneLinersRoast(ctx: Ctx): string[] {
   const { name, o, H, N, younger } = ctx;
   return [
-    `Happy ${o}, ${name}! ${N} is a lot—almost as much drama as your ${H} “casual phase.”`,
+    `Happy ${o}, ${name}! ${N} is a lot, almost as much drama as your ${H} “casual phase.”`,
     `${name} hits ${o} still acting like ${H} won’t take over the calendar. Adorable.`,
-    `Another year, another stack of ${H} receipts, ${name}. ${o} won’t judge—but I might.`,
+    `Another year, another stack of ${H} receipts, ${name}. ${o} won’t judge, but I might.`,
     `${o}? Bold choice, ${name}. ${N} suggests you’re not even pretending to chill.`,
     `Happy birthday, ${name}! At ${o}, your ${H} obsession is basically a personality tax we all pay gladly.`,
     `They say ${o} is the new ${younger}. You say ${H} is the new sleep schedule. Both tracks, ${name}.`,
-    `${name}: ${o} candles and ${N}—a combo nobody’s emotionally ready for.`,
+    `${name}: ${o} candles and ${N}, a combo nobody’s emotionally ready for.`,
     `Premium ${H} chaos, ${name}? ${o} says “subscribe.”`,
   ];
 }

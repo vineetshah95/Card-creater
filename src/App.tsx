@@ -1,7 +1,7 @@
 import { DragEvent, FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { buildTemplates, parseHobbies, pickIndex } from "./birthdayMessages";
 import { useConfettiBurst } from "./components/Confetti";
-import { CONFETTI_PALETTES, RIBBON_CSS } from "./themes";
+import { CONFETTI_PALETTES, RELATIONSHIP_CONFETTI, RIBBON_CSS } from "./themes";
 import { playCardSound } from "./sound";
 import type { CardFont, Length, Relationship, RibbonColor, ThemeId, Tone } from "./types";
 
@@ -9,10 +9,19 @@ type CardEntry = {
   id: string;
   text: string;
   createdAt: number;
+  signOff?: { include: boolean; name: string };
 };
 
+function cardPlainText(c: CardEntry): string {
+  let t = c.text;
+  if (c.signOff?.include && c.signOff.name) {
+    t += `\n\nWith love & cake crumbs\n${c.signOff.name}`;
+  }
+  return t;
+}
+
 const PLACEHOLDER_HINT =
-  "Your cards will stack here — newest on top. Drag to reorder, copy, or export.";
+  "Your cards will stack here (newest on top). Drag to reorder, copy, or export.";
 
 function validationCopy(forPet: boolean): string {
   return forPet
@@ -41,6 +50,8 @@ export function App() {
   const [stickers, setStickers] = useState(true);
   const [soundOn, setSoundOn] = useState(false);
   const [petFriendly, setPetFriendly] = useState(false);
+  const [includeSigner, setIncludeSigner] = useState(false);
+  const [signerName, setSignerName] = useState("");
 
   const [cards, setCards] = useState<CardEntry[]>([]);
   const [validationBanner, setValidationBanner] = useState<string | null>(null);
@@ -100,21 +111,41 @@ export function App() {
       setLastIndex(idx);
       setCards((prev) => {
         pushHistory(prev);
-        return [{ id, text, createdAt: Date.now() }, ...prev];
+        const sign =
+          includeSigner && signerName.trim()
+            ? { include: true as const, name: signerName.trim() }
+            : { include: false as const, name: "" };
+        return [{ id, text, createdAt: Date.now(), signOff: sign }, ...prev];
       });
       setNewestId(id);
       window.setTimeout(() => setNewestId(null), 700);
 
       if (!sameSubmit) {
         burst({
-          colors: CONFETTI_PALETTES[theme],
+          colors:
+            theme === "minimalist" ? CONFETTI_PALETTES.minimalist : RELATIONSHIP_CONFETTI[relationship],
           disabled: reduceMotion,
           count: reduceMotion ? 0 : theme === "minimalist" ? 18 : 32,
         });
         if (soundOn && !reduceMotion) playCardSound();
       }
     },
-    [age, burst, hobby, length, name, petFriendly, pushHistory, reduceMotion, relationship, soundOn, theme, tone],
+    [
+      age,
+      burst,
+      hobby,
+      includeSigner,
+      length,
+      name,
+      petFriendly,
+      pushHistory,
+      reduceMotion,
+      relationship,
+      signerName,
+      soundOn,
+      theme,
+      tone,
+    ],
   );
 
   const onSubmit = (e: FormEvent) => {
@@ -145,14 +176,14 @@ export function App() {
       setCopyToast(label);
       window.setTimeout(() => setCopyToast(null), 1600);
     } catch {
-      setCopyToast("Copy blocked — try again");
+      setCopyToast("Copy blocked. Try again.");
       window.setTimeout(() => setCopyToast(null), 2000);
     }
   };
 
   const copyAll = () => {
     if (!cards.length) return;
-    void copyText(cards.map((c) => c.text).join("\n\n---\n\n"), "All copied");
+    void copyText(cards.map(cardPlainText).join("\n\n---\n\n"), "All copied");
   };
 
   const onReorder = (from: number, to: number) => {
@@ -239,7 +270,7 @@ export function App() {
     <>
       <div className="confetti no-print" ref={rootRef} aria-hidden="true" />
       <div
-        className={`app app--theme-${theme}${reduceMotion ? " app--reduce-motion" : ""}`}
+        className={`app app--theme-${theme} app--rel-${relationship}${reduceMotion ? " app--reduce-motion" : ""}`}
         data-sound={soundOn ? "on" : "off"}
       >
         <div className="app__glow app__glow--1 no-print" aria-hidden="true" />
@@ -253,7 +284,7 @@ export function App() {
             </p>
             <h1 className="page-title__main">The Glitter &amp; Giggle Birthday Lab</h1>
             <p className="page-title__tagline">
-              Relationship-aware jokes, tone control, stackable cards, exports — the whole party.
+              Relationship-aware jokes, tone control, stackable cards, exports, the whole party.
             </p>
           </header>
 
@@ -325,7 +356,9 @@ export function App() {
                   </div>
                   <div className="field">
                     <label htmlFor="age">
-                      {relationship === "pet" ? "Age they’re turning (human years, dog years — you pick)" : "Age they’re turning"}
+                      {relationship === "pet"
+                        ? "Age they’re turning (human years, dog years, your call)"
+                        : "Age they’re turning"}
                     </label>
                     <input
                       id="age"
@@ -398,6 +431,30 @@ export function App() {
                   </fieldset>
 
                   <fieldset className="fieldset">
+                    <legend className="fieldset__legend">Sign-off (optional)</legend>
+                    <label className="check">
+                      <input
+                        type="checkbox"
+                        checked={includeSigner}
+                        onChange={(e) => setIncludeSigner(e.target.checked)}
+                      />
+                      Add my name under &quot;With love &amp; cake crumbs&quot; on new cards
+                    </label>
+                    <div className="field">
+                      <label htmlFor="signerName">Your name (on the card)</label>
+                      <input
+                        id="signerName"
+                        type="text"
+                        placeholder="e.g. Alex"
+                        value={signerName}
+                        onChange={(e) => setSignerName(e.target.value)}
+                        disabled={!includeSigner}
+                        autoComplete="name"
+                      />
+                    </div>
+                  </fieldset>
+
+                  <fieldset className="fieldset">
                     <legend className="fieldset__legend">Delight</legend>
                     <label className={`check${relationship === "pet" ? " check--disabled" : ""}`}>
                       <input
@@ -409,9 +466,9 @@ export function App() {
                       <span>
                         Pet-friendly lines
                         {relationship === "pet" ? (
-                          <span className="check__hint"> — always on for pet birthdays</span>
+                          <span className="check__hint"> (always on for pet birthdays)</span>
                         ) : (
-                          <span className="check__hint"> — warmer animal jokes, no roast</span>
+                          <span className="check__hint"> (warmer animal jokes, no roast)</span>
                         )}
                       </span>
                     </label>
@@ -515,7 +572,7 @@ export function App() {
                             <button
                               type="button"
                               className="btn btn--tiny btn--ghost"
-                              onClick={() => void copyText(c.text, "Copied")}
+                              onClick={() => void copyText(cardPlainText(c), "Copied")}
                             >
                               Copy
                             </button>
@@ -566,7 +623,12 @@ export function App() {
                                 <div className="birthday-card__page birthday-card__page--right">
                                   <p className="birthday-card__script">Happy Birthday!</p>
                                   <p className="birthday-card__body">{c.text}</p>
-                                  <p className="birthday-card__signoff">With love &amp; cake crumbs —</p>
+                                  <div className="birthday-card__signblock">
+                                    <p className="birthday-card__signoff">With love &amp; cake crumbs</p>
+                                    {c.signOff?.include && c.signOff.name ? (
+                                      <p className="birthday-card__signer">{c.signOff.name}</p>
+                                    ) : null}
+                                  </div>
                                 </div>
                               </div>
                             </div>

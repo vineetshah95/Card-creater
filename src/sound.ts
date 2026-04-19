@@ -12,7 +12,7 @@ function getCtx(): AudioContext | null {
   }
 }
 
-/** Short celebratory blip + soft noise for “paper” — respects mute via caller. */
+/** Short celebratory blip for new cards; respects mute via caller. */
 export function playCardSound(): void {
   const ctx = getCtx();
   if (!ctx) return;
