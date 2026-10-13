@@ -90,13 +90,12 @@ export async function downloadStoryImage(
   ctx.drawImage(img, dx, dy, dw, dh);
   ctx.shadowColor = "transparent";
 
-  canvas.toBlob((blob) => {
-    if (!blob) return;
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename.endsWith(".png") ? filename : `${filename}-story.png`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }, "image/png");
+  const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));
+  if (!blob) throw new Error("Could not encode story image");
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename.endsWith(".png") ? filename : `${filename}-story.png`;
+  a.click();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

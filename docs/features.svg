@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 220" role="img" aria-label="Export formats">
+  <rect width="1200" height="220" rx="20" fill="#fff7f9"/>
+  <g font-family="Helvetica, Arial, sans-serif" text-anchor="middle">
+    <g><rect x="60" y="40" width="240" height="140" rx="16" fill="#ffd0d8"/><text x="180" y="100" font-size="44">🖼️</text><text x="180" y="145" font-size="20" font-weight="700" fill="#5a2a3a">PNG</text><text x="180" y="166" font-size="13" fill="#7a4a5a">2× crisp image</text></g>
+    <g><rect x="330" y="40" width="240" height="140" rx="16" fill="#e8deff"/><text x="450" y="100" font-size="44">📄</text><text x="450" y="145" font-size="20" font-weight="700" fill="#3a2a5a">PDF</text><text x="450" y="166" font-size="13" fill="#5a4a7a">Landscape, letter size</text></g>
+    <g><rect x="630" y="40" width="240" height="140" rx="16" fill="#ffe29a"/><text x="750" y="100" font-size="44">📱</text><text x="750" y="145" font-size="20" font-weight="700" fill="#5a4a10">Story</text><text x="750" y="166" font-size="13" fill="#7a6a30">1080×1920 for Instagram</text></g>
+    <g><rect x="900" y="40" width="240" height="140" rx="16" fill="#c8f5e8"/><text x="1020" y="100" font-size="44">🖨️</text><text x="1020" y="145" font-size="20" font-weight="700" fill="#1a4a3a">Print</text><text x="1020" y="166" font-size="13" fill="#3a6a5a">Clean print stylesheet</text></g>
+  </g>
+</svg>

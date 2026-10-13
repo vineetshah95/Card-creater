@@ -36,6 +36,8 @@ function newId(): string {
 export function App() {
   const { rootRef, burst } = useConfettiBurst(CONFETTI_PALETTES.party);
   const pastRef = useRef<CardEntry[][]>([]);
+  const cardsRef = useRef<CardEntry[]>([]);
+  const toastTimer = useRef<number | undefined>(undefined);
 
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
@@ -63,6 +65,12 @@ export function App() {
   const [canUndo, setCanUndo] = useState(false);
 
   useEffect(() => {
+    cardsRef.current = cards;
+  }, [cards]);
+
+  useEffect(() => () => window.clearTimeout(toastTimer.current), []);
+
+  useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const apply = () => setReduceMotion(mq.matches);
     apply();
@@ -79,9 +87,17 @@ export function App() {
     if (relationship === "pet") setPetFriendly(true);
   }, [relationship]);
 
-  const pushHistory = useCallback((snapshot: CardEntry[]) => {
-    pastRef.current = [...pastRef.current, snapshot];
-    if (pastRef.current.length > 48) pastRef.current.shift();
+  const showToast = useCallback((message: string, ms = 1600) => {
+    window.clearTimeout(toastTimer.current);
+    setCopyToast(message);
+    toastTimer.current = window.setTimeout(() => setCopyToast(null), ms);
+  }, []);
+
+  /** Records the current stack for undo, then applies the change. Kept out of state updaters so StrictMode can't double-push. */
+  const commitCards = useCallback((next: CardEntry[]) => {
+    pastRef.current = [...pastRef.current, cardsRef.current].slice(-48);
+    cardsRef.current = next;
+    setCards(next);
     setCanUndo(true);
   }, []);
 
@@ -109,14 +125,11 @@ export function App() {
       const id = newId();
 
       setLastIndex(idx);
-      setCards((prev) => {
-        pushHistory(prev);
-        const sign =
-          includeSigner && signerName.trim()
-            ? { include: true as const, name: signerName.trim() }
-            : { include: false as const, name: "" };
-        return [{ id, text, createdAt: Date.now(), signOff: sign }, ...prev];
-      });
+      const sign =
+        includeSigner && signerName.trim()
+          ? { include: true, name: signerName.trim() }
+          : { include: false, name: "" };
+      commitCards([{ id, text, createdAt: Date.now(), signOff: sign }, ...cardsRef.current]);
       setNewestId(id);
       window.setTimeout(() => setNewestId(null), 700);
 
@@ -138,7 +151,7 @@ export function App() {
       length,
       name,
       petFriendly,
-      pushHistory,
+      commitCards,
       reduceMotion,
       relationship,
       signerName,
@@ -160,24 +173,22 @@ export function App() {
   const undo = () => {
     const snap = pastRef.current.pop();
     setCanUndo(pastRef.current.length > 0);
-    if (snap) setCards(snap);
+    if (snap) {
+      cardsRef.current = snap;
+      setCards(snap);
+    }
   };
 
   const clearStack = () => {
-    setCards((prev) => {
-      if (prev.length) pushHistory(prev);
-      return [];
-    });
+    if (cardsRef.current.length) commitCards([]);
   };
 
   const copyText = async (text: string, label: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      setCopyToast(label);
-      window.setTimeout(() => setCopyToast(null), 1600);
+      showToast(label);
     } catch {
-      setCopyToast("Copy blocked. Try again.");
-      window.setTimeout(() => setCopyToast(null), 2000);
+      showToast("Copy blocked. Try again.", 2000);
     }
   };
 
@@ -187,14 +198,12 @@ export function App() {
   };
 
   const onReorder = (from: number, to: number) => {
-    setCards((prev) => {
-      if (from === to || from < 0 || to < 0 || from >= prev.length || to >= prev.length) return prev;
-      pushHistory(prev);
-      const next = [...prev];
-      const [row] = next.splice(from, 1);
-      next.splice(to, 0, row);
-      return next;
-    });
+    const prev = cardsRef.current;
+    if (from === to || from < 0 || to < 0 || from >= prev.length || to >= prev.length) return;
+    const next = [...prev];
+    const [row] = next.splice(from, 1);
+    next.splice(to, 0, row);
+    commitCards(next);
   };
 
   const onCardDragStart = (index: number) => (e: DragEvent) => {
@@ -238,7 +247,7 @@ export function App() {
       const { downloadPng } = await import("./exportCard");
       await downloadPng(el as HTMLElement, `birthday-card-${id.slice(0, 8)}.png`);
     } catch {
-      window.alert("Could not create PNG. Try again or use a different browser.");
+      showToast("Could not create PNG. Try again or use a different browser.", 3000);
     }
   };
 
@@ -249,7 +258,7 @@ export function App() {
       const { downloadPdf } = await import("./exportCard");
       await downloadPdf(el as HTMLElement, `birthday-card-${id.slice(0, 8)}.pdf`);
     } catch {
-      window.alert("Could not create PDF.");
+      showToast("Could not create PDF.", 3000);
     }
   };
 
@@ -260,7 +269,7 @@ export function App() {
       const { downloadStoryImage } = await import("./exportCard");
       await downloadStoryImage(el as HTMLElement, `birthday-card-${id.slice(0, 8)}`, storyGradient);
     } catch {
-      window.alert("Could not create story image.");
+      showToast("Could not create story image.", 3000);
     }
   };
 
