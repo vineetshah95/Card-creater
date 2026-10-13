@@ -20,13 +20,16 @@ function cardPlainText(c: CardEntry): string {
   return t;
 }
 
+const MIN_AGE = 1;
+const MAX_AGE = 130;
+
 const PLACEHOLDER_HINT =
   "Your cards will stack here (newest on top). Drag to reorder, copy, or export.";
 
 function validationCopy(forPet: boolean): string {
   return forPet
-    ? "Add the pet’s name, age, and at least one pet like (comma-separated)."
-    : "Add a name, a real age, and at least one hobby or pet like (comma-separated).";
+    ? "Add the pet’s name, an age between 1 and 130, and at least one pet like (comma-separated)."
+    : "Add a name, an age between 1 and 130, and at least one hobby or pet like (comma-separated).";
 }
 
 function newId(): string {
@@ -108,7 +111,7 @@ export function App() {
       const ageNum = parseInt(age, 10);
       const forPet = relationship === "pet";
 
-      if (!trimmedName || hobbies.length === 0 || !Number.isFinite(ageNum) || ageNum < 1) {
+      if (!trimmedName || hobbies.length === 0 || !Number.isFinite(ageNum) || ageNum < MIN_AGE || ageNum > MAX_AGE) {
         setValidationBanner(validationCopy(forPet));
         return;
       }
@@ -359,6 +362,7 @@ export function App() {
                       autoComplete={relationship === "pet" ? "off" : "name"}
                       placeholder={relationship === "pet" ? "e.g. Biscuit" : "e.g. Jordan"}
                       value={name}
+                      maxLength={60}
                       onChange={(e) => setName(e.target.value)}
                       required
                     />
@@ -374,8 +378,8 @@ export function App() {
                       name="age"
                       type="number"
                       inputMode="numeric"
-                      min={1}
-                      max={130}
+                      min={MIN_AGE}
+                      max={MAX_AGE}
                       placeholder={relationship === "pet" ? "e.g. 3" : "e.g. 32"}
                       value={age}
                       onChange={(e) => setAge(e.target.value)}
@@ -396,6 +400,7 @@ export function App() {
                           : "e.g. sourdough, chess, long walks"
                       }
                       value={hobby}
+                      maxLength={200}
                       onChange={(e) => setHobby(e.target.value)}
                       required
                     />
@@ -456,6 +461,7 @@ export function App() {
                         type="text"
                         placeholder="e.g. Alex"
                         value={signerName}
+                        maxLength={60}
                         onChange={(e) => setSignerName(e.target.value)}
                         disabled={!includeSigner}
                         autoComplete="name"
@@ -578,6 +584,24 @@ export function App() {
                           </span>
                           <span className="card-chrome__hint">Drag handle · actions</span>
                           <div className="card-chrome__actions">
+                            <button
+                              type="button"
+                              className="btn btn--tiny btn--ghost"
+                              aria-label={`Move card ${i + 1} up`}
+                              disabled={i === 0}
+                              onClick={() => onReorder(i, i - 1)}
+                            >
+                              {"\u2191"}
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn--tiny btn--ghost"
+                              aria-label={`Move card ${i + 1} down`}
+                              disabled={i === cards.length - 1}
+                              onClick={() => onReorder(i, i + 1)}
+                            >
+                              {"\u2193"}
+                            </button>
                             <button
                               type="button"
                               className="btn btn--tiny btn--ghost"

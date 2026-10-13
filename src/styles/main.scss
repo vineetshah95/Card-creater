@@ -19,8 +19,8 @@ $paper-shade: #f3e8dc;
 $paper-ink: #3d2f33;
 $paper-accent: #c45c6a;
 
-$font-display: "Fraunces", "Georgia", serif;
-$font-body: "Outfit", system-ui, sans-serif;
+$font-display: "Fraunces Variable", "Georgia", serif;
+$font-body: "Outfit Variable", system-ui, sans-serif;
 
 $radius-lg: 22px;
 $radius-md: 12px;
@@ -763,7 +763,7 @@ select {
   .birthday-card__signoff,
   .birthday-card__placeholder,
   .birthday-card__watermark {
-    font-family: "Caveat", "Segoe Script", cursive;
+    font-family: "Caveat Variable", "Segoe Script", cursive;
   }
 
   .birthday-card__body {
@@ -781,7 +781,7 @@ select {
   .birthday-card__body,
   .birthday-card__signoff,
   .birthday-card__placeholder {
-    font-family: "DM Sans", system-ui, sans-serif;
+    font-family: "DM Sans Variable", system-ui, sans-serif;
   }
 
   .birthday-card__script {
