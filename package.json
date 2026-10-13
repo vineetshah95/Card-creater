@@ -1,10 +1,21 @@
 {
-  "name": "birthday-card-helper",
+  "name": "card-creater",
+  "version": "1.0.0",
+  "description": "Generate funny, relationship-aware birthday card messages and export them as PNG, PDF, or Instagram Story images.",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "license": "MIT",
+  "author": "Vineet Shah",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vineetshah95/Card-creater.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "vite",
+    "typecheck": "tsc --noEmit",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview"
   },
