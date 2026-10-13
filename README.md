@@ -10,6 +10,8 @@
 ![Vite](https://img.shields.io/badge/Vite-5-646cff?logo=vite&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+**[🎉 Try it live](https://vineetshah95.github.io/Card-creater/)**
+
 <img src="docs/hero.svg" alt="Card Creater preview" width="900" />
 
 </div>
@@ -65,8 +67,11 @@ src/
 
 ## 🌐 Deploying
 
-`npm run build` produces a static site in `dist/` that works on any static host (Netlify, Vercel, Cloudflare Pages, S3…).
-For **GitHub Pages** under `/Card-creater/`, set `base: "/Card-creater/"` in `vite.config.ts`.
+Pushes to `main` are built and published to GitHub Pages automatically (`.github/workflows/deploy.yml`).
+One-time setup: in the repo go to **Settings → Pages → Source** and choose **GitHub Actions**.
+
+The build is a plain static site in `dist/`, so it also works on Netlify, Vercel, Cloudflare Pages, or S3.
+If you host it at a different path, change `base` in `vite.config.ts`.
 
 ## 🛠️ Tech stack
 
