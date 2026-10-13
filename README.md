@@ -2,7 +2,7 @@
 
 # 🎂 Card Creater
 
-**The Glitter & Giggle Birthday Lab** — generate funny, relationship-aware birthday messages, stack them into cards, and export them to PNG, PDF, or an Instagram Story.
+Generate funny, relationship-aware birthday messages, stack them into cards, and export them to PNG, PDF, or an Instagram Story.
 
 [![CI](https://github.com/vineetshah95/Card-creater/actions/workflows/ci.yml/badge.svg)](https://github.com/vineetshah95/Card-creater/actions/workflows/ci.yml)
 ![React](https://img.shields.io/badge/React-18-61dafb?logo=react&logoColor=white)
@@ -11,7 +11,7 @@
 ![Tests](https://img.shields.io/badge/tests-76%20passing-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-**[🎉 Try it live](https://vineetshah95.github.io/Card-creater/)**
+**[🎉 Try it live](https://shahvineet.com/Card-creater/)**
 
 <img src="docs/screenshot.jpg" alt="Screenshot of Card Creater with a generated birthday card" width="800" />
 

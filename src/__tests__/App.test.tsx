@@ -39,6 +39,11 @@ beforeEach(() => {
 afterEach(() => vi.restoreAllMocks());
 
 describe("App", () => {
+  it("shows the Card Creater name as the page heading", () => {
+    renderApp();
+    expect(screen.getByRole("heading", { level: 1, name: "Card Creater" })).toBeInTheDocument();
+  });
+
   it("starts with an empty stack and disabled toolbar", () => {
     renderApp();
     expect(stackCount()).toBe("0 in the stack");

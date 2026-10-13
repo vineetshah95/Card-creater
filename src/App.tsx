@@ -294,7 +294,7 @@ export function App() {
             <p className="page-title__sparkle" aria-hidden="true">
               {["\u{1F388}", "\u2728", "\u{1F382}", "\u2728", "\u{1F388}"].join(" ")}
             </p>
-            <h1 className="page-title__main">The Glitter &amp; Giggle Birthday Lab</h1>
+            <h1 className="page-title__main">Card Creater</h1>
             <p className="page-title__tagline">
               Relationship-aware jokes, tone control, stackable cards, exports, the whole party.
             </p>
