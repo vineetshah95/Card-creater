@@ -33,7 +33,7 @@ export function effectiveTone(relationship: Relationship, tone: Tone, petFriendl
   return tone;
 }
 
-function hobbyBlurb(hobby: string, petFriendly: boolean, isPetStar: boolean): string {
+export function hobbyBlurb(hobby: string, petFriendly: boolean, isPetStar: boolean): string {
   const h = hobby.trim();
   const lower = h.toLowerCase();
 
@@ -57,18 +57,18 @@ function hobbyBlurb(hobby: string, petFriendly: boolean, isPetStar: boolean): st
     { test: (s) => /bake|baking|oven|pastry/i.test(s), blurb: (d) => `${d} with main-character crumb structure` },
     { test: (s) => /chess/.test(s), blurb: (d) => `${d} moves sneaky enough to steal frosting` },
     { test: (s) => /yoga|meditat|mindful/i.test(s), blurb: (d) => `${d} zen strong enough to survive party small talk` },
-    { test: (s) => /run|jogg|marathon/i.test(s), blurb: (d) => `${d} miles logged like birthday XP` },
-    { test: (s) => /hike|trail|climb/i.test(s), blurb: (d) => `${d} trails that owe you a scenic thank-you note` },
-    { test: (s) => /swim|pool|lap/i.test(s), blurb: (d) => `${d} laps smoother than buttercream` },
+    { test: (s) => /\b(run\w*|jogg\w*|marathons?)\b/i.test(s), blurb: (d) => `${d} miles logged like birthday XP` },
+    { test: (s) => /\b(hik(e|es|ing)|trails?|climb\w*)\b/i.test(s), blurb: (d) => `${d} trails that owe you a scenic thank-you note` },
+    { test: (s) => /\bswim\w*|\bpools?\b|\blaps?\b/i.test(s), blurb: (d) => `${d} laps smoother than buttercream` },
     {
-      test: (s) => /rescue\s*dog|dogs?|puppy|canine/i.test(s),
+      test: (s) => /\b(rescue\s*dogs?|dogs?|pupp(y|ies)|canines?)\b/i.test(s),
       blurb: (d) =>
         petFriendly
           ? `${d} love in its purest, waggiest form`
           : `${d} energy (treat budget: justified)`,
     },
     {
-      test: (s) => /cat|kitten|feline/i.test(s),
+      test: (s) => /\b(cats?|kittens?|felines?)\b/i.test(s),
       blurb: (d) =>
         petFriendly
           ? `${d} companions who clearly run the house, and you’re honored to serve`
@@ -87,18 +87,18 @@ function hobbyBlurb(hobby: string, petFriendly: boolean, isPetStar: boolean): st
     { test: (s) => /photo|camera|lens/i.test(s), blurb: (d) => `${d} shots worth framing next to the cake` },
     { test: (s) => /garden|plant|succulent/i.test(s), blurb: (d) => `${d} green-thumb victories` },
     { test: (s) => /knit|crochet|yarn|sew/i.test(s), blurb: (d) => `${d} stitches tighter than your gift wrap game` },
-    { test: (s) => /guitar|piano|music|drum|violin|band/i.test(s), blurb: (d) => `${d} riffs that deserve a birthday encore` },
-    { test: (s) => /read|book|novel|kindle/i.test(s), blurb: (d) => `${d} chapters devoured past bedtime` },
-    { test: (s) => /game|gaming|switch|steam|minecraft|fortnite/i.test(s), blurb: (d) => `${d} sessions where “one more round” is law` },
-    { test: (s) => /code|coding|program|hackathon|github/i.test(s), blurb: (d) => `${d} commits that ship good vibes` },
-    { test: (s) => /art|paint|draw|sketch|pottery/i.test(s), blurb: (d) => `${d} brushstrokes with birthday-bright color` },
+    { test: (s) => /\b(guitar|piano|music|drums?|violin|band)\b/i.test(s), blurb: (d) => `${d} riffs that deserve a birthday encore` },
+    { test: (s) => /\b(read\w*|books?|novels?|kindle)\b/i.test(s), blurb: (d) => `${d} chapters devoured past bedtime` },
+    { test: (s) => /\b(board\s*games?|puzzles?|crosswords?)\b/i.test(s), blurb: (d) => `${d} plays that age like fine cheddar` },
+    { test: (s) => /\b(games?|gaming|switch|steam|minecraft|fortnite)\b/i.test(s), blurb: (d) => `${d} sessions where “one more round” is law` },
+    { test: (s) => /\b(code|coding|programming|hackathons?|github)\b/i.test(s), blurb: (d) => `${d} commits that ship good vibes` },
+    { test: (s) => /\b(art|arts|paint\w*|draw\w*|sketch\w*|pottery)\b/i.test(s), blurb: (d) => `${d} brushstrokes with birthday-bright color` },
     { test: (s) => /cook(?!ie)|chef|kitchen|recipe|spice/i.test(s), blurb: (d) => `${d} flavors that steal the spotlight from the entrée` },
     { test: (s) => /wine|cellar|vineyard/i.test(s), blurb: (d) => `${d} pours poured with sommelier confidence` },
     { test: (s) => /coffee|espresso|latte|barista/i.test(s), blurb: (d) => `${d} crema worthy of a holiday special` },
     { test: (s) => /travel|trip|flight|passport/i.test(s), blurb: (d) => `${d} stamps that brag in the best way` },
     { test: (s) => /movie|film|cinema|tv\s*show/i.test(s), blurb: (d) => `${d} watchlists with impeccable taste` },
     { test: (s) => /volunteer|nonprofit|charity/i.test(s), blurb: (d) => `${d} hours that make the world less ridiculous` },
-    { test: (s) => /board\s*game|puzzle|crossword/i.test(s), blurb: (d) => `${d} plays that age like fine cheddar` },
   ];
 
   for (const { test, blurb } of rules) {
